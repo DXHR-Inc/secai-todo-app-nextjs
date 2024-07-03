@@ -48,11 +48,6 @@ export default function Home() {
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     );
-    setTasks(
-      updatedTasks.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      )
-    );
   };
 
   const deleteTask = (taskId: number): void => {
