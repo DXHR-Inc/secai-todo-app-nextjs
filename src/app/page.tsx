@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { addTask, fetchTasks } from "@/utils/tasks";
 
-interface Task {
+export interface Task {
   id: number;
   title: string;
   detail: string;
@@ -18,6 +19,19 @@ export default function Home() {
   const [category, setCategory] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const fetchedTasks = await fetchTasks();
+        setTasks(fetchedTasks);
+      } catch (error) {
+        console.error("Failed to fetch tasks", error);
+      }
+    };
+    loadTasks();
+  }, []);
+
 
   const handleAddTask = (): void => {
     if (!title || !date) {
@@ -38,6 +52,10 @@ export default function Home() {
         (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
       )
     );
+
+    // add data to the database
+    addTask(newTask);
+
     setTitle("");
     setDetail("");
     setCategory("");
@@ -48,6 +66,7 @@ export default function Home() {
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
     );
+    setTasks(updatedTasks);
   };
 
   const deleteTask = (taskId: number): void => {
@@ -89,7 +108,13 @@ export default function Home() {
                     </span>
                   </div>
                   <span className='w-[150px] font-roboto'>{task.category}</span>
-                  <span className='w-[150px] font-roboto'>{task.date}</span>
+                  <span className='w-[150px] font-roboto'>
+                    {new Date(task.date).toLocaleDateString("ja-JP", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </span>
                 </div>
                 <button
                   onClick={() => deleteTask(task.id)}
@@ -123,7 +148,13 @@ export default function Home() {
                     </span>
                   </div>
                   <span className='w-[150px] font-roboto'>{task.category}</span>
-                  <span className='w-[150px] font-roboto'>{task.date}</span>
+                  <span className='w-[150px] font-roboto'>
+                    {new Date(task.date).toLocaleDateString("ja-JP", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </span>
                 </div>
                 <button
                   onClick={() => deleteTask(task.id)}
