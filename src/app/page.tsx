@@ -99,7 +99,7 @@ export default function Home() {
 							// Taskカードの表示
 							<div
                 key={task.id}
-                className='flex items-center justify-between mb-2 p-3 shadow-sm bg-white'>
+                className='task-card flex items-center justify-between mb-2 p-3 shadow-sm bg-white'>
                 <div className='flex items-center'>
                   <input
                     type='checkbox'
@@ -134,7 +134,7 @@ export default function Home() {
               // Taskカードの表示
 							<div
                 key={task.id}
-                className='flex items-center justify-between mb-2 p-3  shadow-sm bg-white'>
+                className='task-card flex items-center justify-between mb-2 p-3  shadow-sm bg-white'>
                 <div className='flex items-center'>
                   <input
                     type='checkbox'
@@ -169,6 +169,7 @@ export default function Home() {
             <div className='text-red-500 font-roboto mb-2'>{error}</div>
           )}
           <input
+						id="title"
             type='text'
             name='title'
             value={title}
@@ -179,6 +180,7 @@ export default function Home() {
             className='mb-2 p-2 w-full border'
           />
           <textarea
+						id="detail"
             name='detail'
             value={detail}
             onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
@@ -188,6 +190,7 @@ export default function Home() {
             className='mb-2 p-2 w-full border'
           />
           <input
+						id="category"
             type='text'
             name='category'
             value={category}
@@ -198,6 +201,7 @@ export default function Home() {
             className='mb-2 p-2 w-full border'
           />
           <input
+						id="date"
             type='date'
             name='date'
             value={date}
@@ -207,6 +211,7 @@ export default function Home() {
             className='mb-2 p-2 w-full border'
           />
           <button
+						id="addTask"
             onClick={handleAddTask}
             className='w-full bg-blue-500 text-white p-2 rounded-sm'>
             追加
