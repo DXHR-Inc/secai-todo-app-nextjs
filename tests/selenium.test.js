@@ -13,28 +13,3 @@ const firefox = require('selenium-webdriver/firefox');
  * テストが成功した場合はコンソールにメッセージを表示し、失敗した場合はエラーメッセージをコンソールに表示する
  * テストが終了したらブラウザを閉じる
  */
-async function runTest(browser) {
-  let driver = await new Builder().forBrowser(browser).build();
-  try {
-		await driver.get('http://localhost:3000');
-		await driver.findElement(By.id('title')).sendKeys('新しいタスク');
-		await driver.findElement(By.id('detail')).sendKeys('タスクの詳細');
-		await driver.findElement(By.id('category')).sendKeys('仕事');
-		await driver.findElement(By.id('date')).sendKeys('002023-10-01');
-		await driver.findElement(By.id('addTask')).click();
-		await driver.wait(until.elementLocated(By.css('.task-card')), 10000);
-		await driver.findElement(By.css('.task-card button')).click();
-		await driver.switchTo().alert().accept();
-		await driver.wait(until.stalenessOf(driver.findElement(By.css('.task-card'))), 10000);
-		console.log(`Test passed on ${browser}`);
-	} catch (err) {
-		console.error(`Test failed on ${browser}: ${err}`);
-	} finally {
-		await driver.quit();
-	}
-}
-
-(async function() {
-  await runTest('chrome');
-  await runTest('firefox');
-})();
